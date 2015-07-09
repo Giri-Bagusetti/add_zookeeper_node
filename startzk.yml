@@ -1,6 +1,0 @@
----
-- hosts: zookeeper_cluster
-  roles:
-    - role: zookeeper
-  sudo: yes
-
