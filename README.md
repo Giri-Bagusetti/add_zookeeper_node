@@ -23,13 +23,21 @@ first edit hosts file as shown in the below way
 
 [add_node]
 
-192.168.0.173 zookeeper_id=40 ports=2888:3888
+192.168.0.173 zookeeper_id=40 ports=2888:
+
 
 if you want to remove any node add ip address / leave this section blank.
 
 [remove_node]
 
 192.168.0.173
+
+
+
+finally set the varibles file  in all the roles (./roles/*/defaults/main.yml) which shoulld match with your existing cluster
+
+
+
 
 
 
