@@ -1,0 +1,25 @@
+---
+- name: Setting internal variable
+  set_fact:
+    zookeeper_name: zookeeper-{{ zookeeper.version }}
+  tags: zookeeper
+
+- name: Setting internal variable
+  set_fact:
+    zookeeper_dir: "{{ zookeeper.install_dir }}/{{ zookeeper_name }}"
+  tags: zookeeper
+
+- name: stop zookeeper service handler
+  shell: "{{zookeeper.install_dir}}/zookeeper/bin/zkServer.sh stop"
+  tags: zookeeper
+
+- name: delete zookeeper data dir
+  shell: rm -rf {{ zookeeper.data_dir }}
+  tags: zookeeper
+
+- name: remove zookeeper install dir
+  shell:  rm -rf {{ zookeeper.install_dir }}/zookeeper*
+  tags: zookeeper
+
+- name: pause for leader election 
+  pause: minutes=2

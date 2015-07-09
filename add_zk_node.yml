@@ -1,0 +1,11 @@
+---
+- hosts: add_node
+  roles:
+    - role: zookeeper
+  sudo: yes
+
+- hosts: zookeeper_cluster
+  roles:
+    - role: restart_zk_followers
+    - role: restart_zk_leader
+  sudo: yes

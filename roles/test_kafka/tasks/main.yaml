@@ -1,0 +1,21 @@
+---
+ - name: Setting internal variable
+   set_fact:
+      kafka_homedir: "{{kafka.homedir}}"
+      register: a 
+ - name: creating a sample topic in kafka
+   shell: "{{kafka_homedir}}/bin/kafka-topics.sh --create --zookeeper {{zk.host}}:{{zk.port}} --replication-factor 1 --partitions 1 --topic test3"
+   register: results
+
+ - name: creating a topic
+   debug: var=results
+ 
+ - name: starting the producer 
+   shell: "echo welcome to kafka | {{kafka_homedir}}/bin/kafka-console-producer.sh --broker-list {{kafka.broker}}:{{kafka.port}} --topic test3"
+  
+ - name: starting the consumer
+   shell: "{{kafka_homedir}}/bin/kafka-console-consumer.sh --zookeeper {{zk.host}}:{{zk.port}} --topic test3 --from-beginning | trap exit INT"
+   register: result1
+ 
+ - name: checking messages
+   debug: var=result1

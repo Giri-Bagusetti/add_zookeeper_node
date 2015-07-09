@@ -1,0 +1,37 @@
+---
+
+- name: Setting internal variable
+  set_fact:
+    zookeeper_name: zookeeper-{{ zookeeper.version }}
+
+- name: Download {{zookeeper_name}}.tar.gz
+  get_url: url=http://mirror.reverse.net/pub/apache/zookeeper/{{zookeeper_name}}/{{zookeeper_name}}.tar.gz mode=0644 force=no dest=/tmp
+  sudo: yes
+
+- name: Setting internal variable
+  set_fact:
+    zookeeper_dir: "{{ zookeeper.installDir }}/{{ zookeeper_name }}"
+
+- name: Extracting the tar to {{zookeeper.installDir}}
+  unarchive: src=/tmp/{{zookeeper_name}}.tar.gz dest={{zookeeper.installDir}}
+  sudo: yes
+
+- stat: path={{zookeeper.dataDir}}
+  register: check_path
+- shell: mkdir {{zookeeper.dataDir}}
+  when: check_path.stat.exists == false
+  sudo: yes
+
+- name: copy configuration file to remote host
+  template: src=zoo.cfg.j2 dest={{zookeeper.installDir}}/{{zookeeper_name}}/conf/zoo.cfg
+  sudo: yes 
+
+- name: copy myid file to remote hosts
+  template: src=myid.j2 dest={{zookeeper.dataDir}}/myid
+  sudo: yes
+
+- name: start zookeeper 
+  shell: "{{zookeeper.installDir}}/{{zookeeper_name}}/bin/zkServer.sh start"
+  sudo: yes
+
+

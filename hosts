@@ -1,0 +1,18 @@
+[ansible]
+
+
+
+[kafka]
+192.168.0.157 kafka_broker_id=10
+#192.168.0.158 kafka_broker_id=20
+192.168.0.159 kafka_broker_id=30
+
+[zookeeper_cluster]
+192.168.0.157 zookeeper_id=10 ports=2888:3888
+192.168.0.159 zookeeper_id=20 ports=2888:3888
+192.168.0.167 zookeeper_id=40 ports=2888:3888
+
+[add_node]
+
+[remove_node]
+192.168.0.173

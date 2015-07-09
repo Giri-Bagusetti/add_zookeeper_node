@@ -1,0 +1,11 @@
+---
+- hosts: remove_node
+  roles:
+    - role: remove-zk-node
+  sudo: yes
+
+- hosts: zookeeper_cluster
+  roles:
+    - role: restart_zk_followers
+    - role: restart_zk_leader
+  sudo: yes

@@ -1,0 +1,8 @@
+---
+kafka:
+  homedir: "/home/sfuser/kafka_2.9.1-0.8.2.1"
+  broker: 192.168.0.173
+  port: 9092
+zk:
+  host: 192.168.0.173
+  port: 2181  

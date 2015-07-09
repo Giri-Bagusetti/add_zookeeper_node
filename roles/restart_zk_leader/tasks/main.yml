@@ -1,0 +1,32 @@
+---
+
+- name: Setting internal variable
+  set_fact:
+    zookeeper_name: zookeeper-{{ zookeeper.version }}
+
+- name: Setting internal variable
+  set_fact:
+    zookeeper_dir: "{{ zookeeper.install_dir }}/{{ zookeeper_name }}"
+
+
+- name: copy configuration file to remote host
+  template: src=zoo.cfg.j2 dest={{zookeeper.install_dir}}/{{zookeeper_name}}/conf/zoo.cfg
+  sudo: yes 
+
+- name: running the nc command to check zk mode
+  shell: echo "srvr" | nc localhost 2181 | grep Mode
+  register: mode
+
+- name: Restart zookeeper leader
+  template:
+    src: zookeeper-service.j2
+    dest: "/etc/init.d/zookeeper"
+    mode: 0755
+  notify: restart zookeeper
+  tags: zookeeper
+  when: mode.stdout.find('leader') != -1 
+
+- name: Ensure the state of the zookeeper service is started
+  service: name=zookeeper state=started
+  tags: zookeeper
+
