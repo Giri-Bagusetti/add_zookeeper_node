@@ -37,8 +37,16 @@ if you want to remove any node add ip address / leave this section blank.
 finally set the varibles file  in all the roles (./roles/*/defaults/main.yml) which shoulld match with your existing cluster
 
 
+running the playbooks 
+--------------------------------
 
+to add a  node 
 
+ansible-playbook -i hosts add_zk_node.yml -K 
+
+to remove a node 
+
+ansible-playbook -i hosts remove_zk_node.yml -K 
 
 
 
