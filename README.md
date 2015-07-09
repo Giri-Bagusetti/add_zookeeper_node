@@ -2,7 +2,17 @@
 Usage
 ------------------------------------------------------------------------
 
-This playbook is for adding / removing zookeeper nodes to / from the existing zookeeper cluster.
+This playbook is for adding / removing zookeeper nodes to / from an existing zookeeper cluster. 
+
+I have followed a proper way of restarting the entire cluster after adding / removing a node.
+
+i.e.
+
+start the zk service on the new node
+
+start all the followers 
+
+start the leader
 
 
 How to use this PlayBook
